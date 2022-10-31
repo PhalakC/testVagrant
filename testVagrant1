@@ -1,0 +1,17 @@
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+public class testVagrant1 {
+
+	@FindBy(xpath = "//div[normalize-space()='Release date']/following::td[1]")
+	WebElement release_date_wiki;
+
+	@FindBy(xpath = "//a[normalize-space()='Release date']/following::a[1]")
+	WebElement release_date_imdb;
+
+	@FindBy(xpath = "//span[normalize-space()='Country of origin']/..//a")
+	WebElement country_imdb;
+
+	@FindBy(xpath = "//th[normalize-space()='Country']/following-sibling::td")
+	WebElement country_wiki;
+}
