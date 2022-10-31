@@ -1,0 +1,58 @@
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class testVagrant2 {
+
+	WebDriver driver;
+
+	@BeforeTest // TestNG annotation
+
+	public void beforeTest() {
+
+		System.setProperty("webdriver.chrome.driver",
+				"C:\\Users\\phalakc\\Downloads\\chromedriver_win32\\chromedriver.exe");
+		driver = new ChromeDriver();
+
+		driver.manage().window().maximize();
+	}
+
+	@Test(priority = 1)
+
+	public void dateCheck() throws Exception {
+		testVagrant1 tv = PageFactory.initElements(driver, testVagrant1.class); // implementing the Page Object Model
+		driver.get("https://en.wikipedia.org/wiki/Pushpa:_The_Rise");
+		String release_date_wiki = tv.release_date_wiki.getText();
+		driver.get("https://www.imdb.com/title/tt9389998/?ref_=fn_al_tt_1");
+		String release_date_imdb = tv.release_date_imdb.getText();
+
+		String[] date_imdb = release_date_imdb.split(" ");
+
+		String new_date_imdb = date_imdb[1] + " " + date_imdb[0] + " " + date_imdb[2]; // changing the format of date
+		new_date_imdb = new_date_imdb.replaceAll(",", "");
+		Assert.assertEquals(release_date_wiki, new_date_imdb);
+
+	}
+
+	@Test(priority = 2)
+	public void countryCheck() {
+		testVagrant1 tv = PageFactory.initElements(driver, testVagrant1.class);
+		String country_imdb = tv.country_imdb.getText();
+		driver.get("https://en.wikipedia.org/wiki/Pushpa:_The_Rise");
+
+		String country_wiki = tv.country_wiki.getText();
+
+		Assert.assertEquals(country_imdb, country_wiki);
+
+	}
+
+	@AfterTest
+	public void afterTest() {
+		driver.quit();
+	}
+}
